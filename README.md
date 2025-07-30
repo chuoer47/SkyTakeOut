@@ -6,8 +6,6 @@
 
 本仓库是我自学完成的实战项目，仅实现了后端相关功能和接口，前端界面为教程提供。该系统包括外卖平台的核心业务流程，包括用户端点餐、商家端管理等完整功能模块。
 
-苍穹外卖是一个基于Java开发的在线外卖平台系统。[教程链接](https://www.bilibili.com/video/BV1TP411v7v6/)
-
 
 ## 前置教程
 
@@ -117,8 +115,8 @@
 ![商家管理界面展示图1.png](images/商家管理界面展示图1.png)
 ![商家管理界面展示图2.png](images/商家管理界面展示图2.png)
 <div style="display: flex; justify-content: center;">
-   <img src="images/微信小程序展示图1.png" alt="描述1" style="width: 25%; margin: 0 5px;" />
-   <img src="images/微信小程序展示图2.png" alt="描述2" style="width: 25%; margin: 0 5px;" />
-   <img src="images/微信小程序展示图3.png" alt="描述2" style="width: 25%; margin: 0 5px;" />
-   <img src="images/微信小程序展示图4.png" alt="描述2" style="width: 25%; margin: 0 5px;" />
+   <img src="images/微信小程序展示图1.png" alt="描述1" style="width: 22%; margin: 0 5px;" />
+   <img src="images/微信小程序展示图2.png" alt="描述2" style="width: 22%; margin: 0 5px;" />
+   <img src="images/微信小程序展示图3.png" alt="描述2" style="width: 22%; margin: 0 5px;" />
+   <img src="images/微信小程序展示图4.png" alt="描述2" style="width: 22%; margin: 0 5px;" />
 </div>

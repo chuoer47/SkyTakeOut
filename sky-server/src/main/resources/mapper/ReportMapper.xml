@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ReportMapper">
+
+    <select id="getTurnoverStatistics" resultType="java.lang.Double">
+        SELECT COALESCE(SUM(o.amount), 0) AS turnover,
+               d.date -- 建议同时返回日期，方便查看对应关系
+        FROM (
+                 -- 递归生成从begin到end的所有日期
+                 WITH RECURSIVE date_series AS (SELECT #{begin} AS date -- 起始日期
+                                                UNION ALL
+                                                SELECT date + INTERVAL 1 DAY
+                                                FROM date_series
+                                                WHERE date &lt; #{end} -- 终止日期
+                 )
+                 SELECT date
+                 FROM date_series) d
+                 LEFT JOIN orders o
+                           ON DATE(o.order_time) = d.date
+                               AND o.status = 5
+        GROUP BY d.date
+        ORDER BY d.date;
+    </select>
+
+    <select id="getNewUser" resultType="java.lang.Integer">
+        SELECT COALESCE(COUNT(id), 0)
+        FROM user
+        WHERE DATE(create_time) = #{time}
+    </select>
+
+    <select id="getTotalUser" resultType="java.lang.Integer">
+        SELECT COALESCE(COUNT(id), 0)
+        FROM user
+        WHERE DATE(create_time) &lt;= #{time}
+    </select>
+    <select id="countOrder" resultType="java.lang.Integer">
+        # 统计order表，creat_time == time的订单数量，空返回0
+        SELECT COALESCE(COUNT(id), 0)
+        FROM orders
+        WHERE DATE(order_time) = #{time}
+    </select>
+    <select id="countValidOrder" resultType="java.lang.Integer">
+        SELECT COALESCE(COUNT(id), 0)
+        FROM orders
+        WHERE DATE(order_time) = #{time}
+          AND status = 5
+    </select>
+    <select id="top10" resultType="com.sky.dto.GoodsSalesDTO">
+        SELECT fd.name,
+               SUM(fd.number) AS number
+        FROM orders o
+                 LEFT JOIN order_detail fd ON o.id = fd.order_id
+        WHERE o.status = 5
+          AND DATE(order_time) BETWEEN #{begin} AND #{end}
+        GROUP BY fd.name
+        ORDER BY number DESC
+        LIMIT 0,10
+    </select>
+
+
+</mapper>

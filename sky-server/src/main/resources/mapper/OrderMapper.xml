@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderMapper">
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
+            <if test="status != null">status,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="addressBookId != null">address_book_id,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="checkoutTime != null">checkout_time,</if>
+            <if test="payMethod != null">pay_method,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="amount != null">amount,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="consignee != null">consignee,</if>
+            <if test="cancelReason != null">cancel_reason,</if>
+            <if test="rejectionReason != null">rejection_reason,</if>
+            <if test="cancelTime != null">cancel_time,</if>
+            <if test="estimatedDeliveryTime != null">estimated_delivery_time,</if>
+            <if test="deliveryStatus != null">delivery_status,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="packAmount != null">pack_amount,</if>
+            <if test="tablewareNumber != null">tableware_number,</if>
+            <if test="tablewareStatus != null">tableware_status,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
+            <if test="status != null">#{status},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="addressBookId != null">#{addressBookId},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="checkoutTime != null">#{checkoutTime},</if>
+            <if test="payMethod != null">#{payMethod},</if>
+            <if test="payStatus != null">#{payStatus},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="address != null">#{address},</if>
+            <if test="consignee != null">#{consignee},</if>
+            <if test="cancelReason != null">#{cancelReason},</if>
+            <if test="rejectionReason != null">#{rejectionReason},</if>
+            <if test="cancelTime != null">#{cancelTime},</if>
+            <if test="estimatedDeliveryTime != null">#{estimatedDeliveryTime},</if>
+            <if test="deliveryStatus != null">#{deliveryStatus},</if>
+            <if test="deliveryTime != null">#{deliveryTime},</if>
+            <if test="packAmount != null">#{packAmount},</if>
+            <if test="tablewareNumber != null">#{tablewareNumber},</if>
+            <if test="tablewareStatus != null">#{tablewareStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.sky.entity.Orders">
+        update orders
+        <set>
+            <if test="cancelReason != null and cancelReason!='' ">
+                cancel_reason=#{cancelReason},
+            </if>
+            <if test="rejectionReason != null and rejectionReason!='' ">
+                rejection_reason=#{rejectionReason},
+            </if>
+            <if test="cancelTime != null">
+                cancel_time=#{cancelTime},
+            </if>
+            <if test="payStatus != null">
+                pay_status=#{payStatus},
+            </if>
+            <if test="payMethod != null">
+                pay_method=#{payMethod},
+            </if>
+            <if test="checkoutTime != null">
+                checkout_time=#{checkoutTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="page" resultType="com.sky.entity.Orders">
+        select id, number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount,
+        remark, phone, address, user_name, consignee, cancel_reason, rejection_reason, cancel_time,
+        estimated_delivery_time, delivery_status, delivery_time, pack_amount, tableware_number, tableware_status
+        from orders
+        <where>
+            <if test="number != null and number != ''">
+                and number like concat('%',#{number},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like concat('%',#{phone},'%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="beginTime != null and endTime != null">
+                and order_time between #{beginTime} and #{endTime}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+        order by order_time desc
+    </select>
+
+
+
+    <select id="getById" resultType="com.sky.entity.Orders">
+        select id,
+               number,
+               status,
+               user_id,
+               address_book_id,
+               order_time,
+               checkout_time,
+               pay_method,
+               pay_status,
+               amount,
+               remark,
+               phone,
+               address,
+               user_name,
+               consignee,
+               cancel_reason,
+               rejection_reason,
+               cancel_time,
+               estimated_delivery_time,
+               delivery_status,
+               delivery_time,
+               pack_amount,
+               tableware_number,
+               tableware_status
+        from orders
+        where id = #{id}
+    </select>
+
+    <select id="countStatus" resultType="java.lang.Integer">
+        select COALESCE(count(1), 0)
+        from orders
+        where status = #{status}
+    </select>
+
+    <select id="getByStatusAndOrderTimeLT" resultType="com.sky.entity.Orders">
+        select id,
+               number,
+               status,
+               user_id,
+               address_book_id,
+               order_time,
+               checkout_time,
+               pay_method,
+               pay_status,
+               amount,
+               remark,
+               phone,
+               address,
+               user_name,
+               consignee,
+               cancel_reason,
+               rejection_reason,
+               cancel_time,
+               estimated_delivery_time,
+               delivery_status,
+               delivery_time,
+               pack_amount,
+               tableware_number,
+               tableware_status
+        from orders
+        where status = #{status}
+          and order_time &lt; #{orderTime}
+    </select>
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select COALESCE(count(1), 0)
+        from orders
+        <where>
+            <if test="begin != null and end != null">
+                and order_time between #{begin} and #{end}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="sumByMap" resultType="java.lang.Double">
+        select COALESCE(sum(amount), 0)
+        from orders
+        <where>
+            <if test="begin != null and end != null">
+                and order_time between #{begin} and #{end}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ShoppingCartMapper">
+    <insert id="insert">
+        INSERT INTO shopping_cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="dishId != null">dish_id,</if>
+            <if test="setmealId != null">setmeal_id,</if>
+            <if test="dishFlavor != null and dishFlavor != ''">dish_flavor,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="number != null">number,</if>
+            <if test="amount != null">amount,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="image != null">image,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="dishId != null">#{dishId},</if>
+            <if test="setmealId != null">#{setmealId},</if>
+            <if test="dishFlavor != null and dishFlavor != ''">#{dishFlavor},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="number != null">#{number},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="image != null">#{image},</if>
+        </trim>
+    </insert>
+    <update id="updateNumberById">
+        UPDATE shopping_cart
+        SET number = #{number}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByUserId">
+        DELETE
+        FROM shopping_cart
+        WHERE user_id = #{userId}
+    </delete>
+    <delete id="deleteById">
+        DELETE
+        FROM shopping_cart
+        WHERE id = #{id}
+    </delete>
+
+
+    <select id="list" resultType="com.sky.entity.ShoppingCart">
+        SELECT * FROM shopping_cart
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="setmealId != null">
+                AND setmeal_id = #{setmealId}
+            </if>
+            <if test="dishId != null">
+                AND dish_id = #{dishId}
+            </if>
+            <if test="dishFlavor != null and dishFlavor != ''">
+                AND dish_flavor = #{dishFlavor}
+            </if>
+        </where>
+    </select>
+
+</mapper>

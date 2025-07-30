@@ -1,0 +1,21 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: <你的数据库密码>  # 请替换为你的数据库密码
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucket-name: javaweb-ai-tlias-carrot
+    access-key-id: <你的阿里云OSS访问密钥ID>  # 请替换为你的阿里云OSS访问密钥ID
+    access-key-secret: <你的阿里云OSS访问密钥密钥>  # 请替换为你的阿里云OSS访问密钥密钥
+  redis:
+    host: localhost
+    port: 6379
+    password: <你的Redis密码>  # 请替换为你的Redis密码，若无密码可删除此配置
+    database: 0
+  wechat:
+    app-id: <你的微信小程序AppID>  # 请替换为你的微信小程序AppID
+    secret: <你的微信小程序密钥>  # 请替换为你的微信小程序密钥
